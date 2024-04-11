@@ -18,7 +18,7 @@ export const TopMenu = () => {
           <span className={`${titleFont.className} antialiased font-bold`}>
             Markish
           </span>
-          <span>| Shop</span>
+          <span> | Shop</span>
         </Link>
       </div>
       <div className='hidden sm:block'>
