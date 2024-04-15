@@ -5,8 +5,11 @@ import { inter } from '@/config/fonts';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Markish | Shop',
-  description: 'Una tienda virtual de productos',
+  title: {
+    template: '%s - Markish | Shop',
+    default: 'Home - Markish | Shop',
+  },
+  description: 'Una tienda virtual de productos.',
 };
 
 export default function RootLayout({
