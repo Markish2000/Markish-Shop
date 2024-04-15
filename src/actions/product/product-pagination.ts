@@ -1,7 +1,6 @@
 'use server';
 
 import { Gender } from '@prisma/client';
-
 import prisma from '@/libs/prisma';
 
 interface PaginationOptions {
@@ -20,7 +19,7 @@ export const getPaginatedProductsWithImages = async ({
 
   try {
     const products = await prisma.product.findMany({
-      take,
+      take: take,
       skip: (page - 1) * take,
       include: {
         ProductImage: {
@@ -31,13 +30,13 @@ export const getPaginatedProductsWithImages = async ({
         },
       },
       where: {
-        gender,
+        gender: gender,
       },
     });
 
     const totalCount = await prisma.product.count({
       where: {
-        gender,
+        gender: gender,
       },
     });
 
@@ -45,13 +44,13 @@ export const getPaginatedProductsWithImages = async ({
 
     return {
       currentPage: page,
-      totalPages,
+      totalPages: totalPages,
       products: products.map((product) => ({
         ...product,
         images: product.ProductImage.map((image) => image.url),
       })),
     };
   } catch (error) {
-    throw new Error('No se pudo cargar los productos.');
+    throw new Error('No se pudo cargar los productos');
   }
 };

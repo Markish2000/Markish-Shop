@@ -15,6 +15,7 @@ interface Props {
 export const Pagination = ({ totalPages }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const pageString = searchParams.get('page') ?? 1;
   const currentPage = isNaN(+pageString) ? 1 : +pageString;
 
@@ -27,11 +28,9 @@ export const Pagination = ({ totalPages }: Props) => {
 
     if (pageNumber === '...') return `${pathname}?${params.toString()}`;
 
-    if (Number(pageNumber) <= 0) return `${pathname}`;
+    if (+pageNumber <= 0) return `${pathname}`;
 
-    if (Number(pageNumber) > totalPages) {
-      return `${pathname}?${params.toString()}`;
-    }
+    if (+pageNumber > totalPages) return `${pathname}?${params.toString()}`;
 
     params.set('page', pageNumber.toString());
     return `${pathname}?${params.toString()}`;
@@ -50,22 +49,13 @@ export const Pagination = ({ totalPages }: Props) => {
             </Link>
           </li>
 
-          <li className='page-item'>
-            <Link
-              className='page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'
-              href='#'
-            >
-              1
-            </Link>
-          </li>
-
           {allPages.map((page, index) => (
-            <li className='page-item' key={`${page}-${index}`}>
+            <li key={page} className='page-item'>
               <Link
                 className={clsx(
                   'page-link relative block py-1.5 px-3 border-0 outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none',
                   {
-                    'bg-blue-600 shadow-md text-white hover:text-white hover:bg-blue-700':
+                    'bg-blue-600 shadow-sm text-white hover:text-white hover:bg-blue-700':
                       page === currentPage,
                   }
                 )}
