@@ -1,18 +1,18 @@
 export const revalidate = 604800;
 
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { AddToCart } from './ui/AddToCart';
 import {
   ProductMobileSlideshow,
   ProductSlideshow,
-  QuantitySelector,
-  SizeSelector,
   StockLabel,
 } from '@/components';
 
-import { titleFont } from '@/config/fonts';
 import { getProductBySlug } from '@/actions';
+
+import { titleFont } from '@/config/fonts';
 
 interface Props {
   params: {
@@ -20,15 +20,10 @@ interface Props {
   };
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = params.slug;
 
   const product = await getProductBySlug(slug);
-
-  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: product?.title ?? 'Producto no encontrado.',
@@ -41,7 +36,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProductBySlugPage({ params }: Props) {
+export default async function ProductBySlugPage({ params }: Readonly<Props>) {
   const { slug } = params;
   const product = await getProductBySlug(slug);
 
@@ -68,12 +63,7 @@ export default async function ProductBySlugPage({ params }: Props) {
           {product.title}
         </h1>
         <p className='text-lg mb-5'>${product.price}</p>
-        <SizeSelector
-          selectedSize={product.sizes[0]}
-          availableSizes={product.sizes}
-        />
-        <QuantitySelector quantity={2} />
-        <button className='btn-primary my-5'>Agregar al carrito</button>
+        <AddToCart product={product} />
         <h3 className='font-bold text-sm'>Descripción</h3>
         <p className='font-light'>{product.description}</p>
       </div>
