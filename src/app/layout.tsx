@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { Provider } from '@/components';
+
 import { inter } from '@/config/fonts';
 
 import './globals.css';
@@ -12,14 +14,16 @@ export const metadata: Metadata = {
   description: 'Una tienda virtual de productos.',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface Props {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang='es'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   );
 }

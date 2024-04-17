@@ -1,12 +1,23 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Link from 'next/link';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 
 import { authenticate } from '@/actions';
+import { IoInformationOutline } from 'react-icons/io5';
+import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
+  const router = useRouter();
+
   const [state, dispatch] = useFormState(authenticate, undefined);
+
+  useEffect(() => {
+    if (state === 'Success') router.replace('/');
+  }, [state]);
 
   return (
     <form action={dispatch} className='flex flex-col'>
@@ -23,10 +34,22 @@ export const LoginForm = () => {
         type='password'
         name='password'
       />
+      <div
+        className='flex h-8 items-end space-x-1'
+        aria-live='polite'
+        aria-atomic='true'
+      >
+        {state === 'CredentialsSignIn' && (
+          <div className='flex flex-row mb-2'>
+            <IoInformationOutline className='h-5 w-5 text-red-500' />
+            <p className='text-sm text-red-500'>
+              Las credenciales no son correctas.
+            </p>
+          </div>
+        )}
+      </div>
 
-      <button className='btn-primary' type='submit'>
-        Ingresar
-      </button>
+      <LoginButton />
 
       <div className='flex items-center my-5'>
         <div className='flex-1 border-t border-gray-500'></div>
@@ -40,3 +63,17 @@ export const LoginForm = () => {
     </form>
   );
 };
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      className={clsx({ 'btn-primary': !pending, 'btn-disabled': pending })}
+      type='submit'
+      disabled={pending}
+    >
+      Ingresar
+    </button>
+  );
+}
