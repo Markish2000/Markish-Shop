@@ -13,15 +13,11 @@ export const authConfig: NextAuthConfig = {
 
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log({ auth });
-
       return true;
     },
 
     jwt({ token, user }) {
-      if (user) {
-        token.data = user;
-      }
+      if (user) token.data = user;
 
       return token;
     },
@@ -46,6 +42,7 @@ export const authConfig: NextAuthConfig = {
         const user = await prisma.user.findUnique({
           where: { email: email.toLowerCase() },
         });
+
         if (!user) return null;
 
         if (!bcryptjs.compareSync(password, user.password)) return null;
