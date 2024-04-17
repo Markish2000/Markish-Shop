@@ -24,6 +24,7 @@ export const Sidebar = () => {
 
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
+  const isAdmin = session?.user.role === 'admin';
 
   return (
     <div>
@@ -59,22 +60,26 @@ export const Sidebar = () => {
           />
         </div>
 
-        <Link
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-          href='/profile'
-          onClick={() => closeSideMenu()}
-        >
-          <IoPersonOutline size={30} />
-          <span className='ml-3 text-xl'>Perfil</span>
-        </Link>
+        {isAuthenticated && (
+          <>
+            <Link
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+              href='/profile'
+              onClick={() => closeSideMenu()}
+            >
+              <IoPersonOutline size={30} />
+              <span className='ml-3 text-xl'>Perfil</span>
+            </Link>
 
-        <Link
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-          href='/'
-        >
-          <IoTicketOutline size={30} />
-          <span className='ml-3 text-xl'>Ordenes</span>
-        </Link>
+            <Link
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+              href='/'
+            >
+              <IoTicketOutline size={30} />
+              <span className='ml-3 text-xl'>Ordenes</span>
+            </Link>
+          </>
+        )}
 
         {!isAuthenticated && (
           <Link
@@ -97,30 +102,34 @@ export const Sidebar = () => {
           </button>
         )}
 
-        <div className='w-full h-px bg-gray-200 my-10' />
+        {isAdmin && (
+          <>
+            <div className='w-full h-px bg-gray-200 my-10' />
 
-        <Link
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-          href='/'
-        >
-          <IoShirtOutline size={30} />
-          <span className='ml-3 text-xl'>Productos</span>
-        </Link>
-        <Link
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-          href='/'
-        >
-          <IoTicketOutline size={30} />
-          <span className='ml-3 text-xl'>Ordenes</span>
-        </Link>
+            <Link
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+              href='/'
+            >
+              <IoShirtOutline size={30} />
+              <span className='ml-3 text-xl'>Productos</span>
+            </Link>
+            <Link
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+              href='/'
+            >
+              <IoTicketOutline size={30} />
+              <span className='ml-3 text-xl'>Ordenes</span>
+            </Link>
 
-        <Link
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-          href='/'
-        >
-          <IoPeopleOutline size={30} />
-          <span className='ml-3 text-xl'>Usuarios</span>
-        </Link>
+            <Link
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+              href='/'
+            >
+              <IoPeopleOutline size={30} />
+              <span className='ml-3 text-xl'>Usuarios</span>
+            </Link>
+          </>
+        )}
       </nav>
     </div>
   );
