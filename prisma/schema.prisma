@@ -82,6 +82,7 @@ model Country {
 model UserAddress {
   address    String
   address2   String?
+  city       String
   firstName  String
   id         String  @id @default(uuid())
   lastName   String
