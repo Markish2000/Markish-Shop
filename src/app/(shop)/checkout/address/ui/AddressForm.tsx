@@ -62,7 +62,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
       await deleteUserAddress(session!.user.id);
     }
 
-    router.push('checkout');
+    router.push('/checkout');
   };
 
   return (
