@@ -63,23 +63,23 @@ model ProductImage {
 }
 
 model User {
-  email         String      @unique
+  email         String       @unique
   emailVerified DateTime?
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   image         String?
   name          String
   password      String
-  role          Role        @default(user)
-  address       UserAdress?
+  role          Role         @default(user)
+  address       UserAddress?
 }
 
 model Country {
-  id         String       @id
+  id         String        @id
   name       String
-  UserAdress UserAdress[]
+  UserAdress UserAddress[]
 }
 
-model UserAdress {
+model UserAddress {
   address    String
   address2   String?
   firstName  String
