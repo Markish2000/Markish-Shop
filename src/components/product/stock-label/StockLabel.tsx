@@ -11,8 +11,8 @@ interface Props {
 }
 
 export const StockLabel = ({ slug }: Props) => {
-  const [stock, setStock] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [stock, setStock] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getStock();

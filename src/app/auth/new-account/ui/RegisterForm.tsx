@@ -16,7 +16,7 @@ type FormInputs = {
 };
 
 export const RegisterForm = () => {
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const {
     register,
     handleSubmit,
