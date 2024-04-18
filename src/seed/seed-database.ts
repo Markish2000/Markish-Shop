@@ -4,6 +4,7 @@ import { initialData } from './seed';
 import prisma from '../libs/prisma';
 
 async function main() {
+  await prisma.userAddress.deleteMany();
   await prisma.user.deleteMany();
   await prisma.country.deleteMany();
   await prisma.productImage.deleteMany();
