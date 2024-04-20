@@ -31,10 +31,13 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
     data: CreateOrderData,
     actions: any
   ): Promise<string> => {
+    const value = `${routedAmount}`;
+
     const transactionId = await actions.order.create({
       purchase_units: [
         {
-          amount: { value: `${routedAmount}` },
+          invoice_id: orderId,
+          amount: { value },
         },
       ],
     });
@@ -43,7 +46,8 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
 
     if (ok) return transactionId;
 
-    throw new Error('No se pudo actualizar la orden.');
+    const messageError = 'No se pudo actualizar la orden.';
+    throw new Error(messageError);
   };
 
   const onApprove = async (

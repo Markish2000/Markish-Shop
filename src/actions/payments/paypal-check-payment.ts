@@ -38,14 +38,17 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
       } catch (error) {
         console.log(error);
 
-        return { ok: false, message: '500 - El pago no se pudo realizar' };
+        const message = '500 - El pago no se pudo realizar';
+        return { ok: false, message };
       }
     }
 
-    return { ok: false, message: 'Error al verificar el pago' };
+    const message = 'Error al verificar el pago';
+    return { ok: false, message };
   }
 
-  return { ok: false, message: 'No se pudo obtener token de verificación' };
+  const message = 'No se pudo obtener token de verificación';
+  return { ok: false, message };
 };
 
 const getPayPalBearerToken = async (): Promise<string | null> => {
