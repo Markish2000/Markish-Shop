@@ -1,3 +1,4 @@
+export * from './orders/OrderStatus';
 export * from './paypal/PaypalButton';
 export * from './product/productSlideshow/ProductMobileSlideshow';
 export * from './product/productSlideshow/ProductSlideshow';
