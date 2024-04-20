@@ -16,11 +16,10 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
       const { status, purchase_units } = resp;
       const { invoice_id: orderId } = purchase_units[0];
 
-      if (status !== 'COMPLETED') {
-        return {
-          ok: false,
-          message: 'Aún no se ha pagado en PayPal',
-        };
+      const completed = 'COMPLETED';
+      if (status !== completed) {
+        const message = 'Aún no se ha pagado en PayPal';
+        return { ok: false, message };
       }
 
       try {
@@ -32,7 +31,8 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
           },
         });
 
-        revalidatePath(`/orders/${orderId}`);
+        const path = `/orders/${orderId}`;
+        revalidatePath(path);
 
         return { ok: true };
       } catch (error) {
