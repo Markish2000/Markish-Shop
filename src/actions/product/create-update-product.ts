@@ -120,7 +120,7 @@ const uploadImages = async (images: File[]) => {
 
         return cloudinary.uploader
           .upload(`data:image/png;base64,${base64Image}`)
-          .then((r) => r.secure_url);
+          .then((response) => response.secure_url);
       } catch (error) {
         console.log(error);
 
