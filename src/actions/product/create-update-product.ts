@@ -34,81 +34,79 @@ export const createUpdateProduct = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
   const productParsed = productSchema.safeParse(data);
 
-  if (productParsed.success) {
-    const product = productParsed.data;
-    product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim();
+  if (!productParsed.success) return { ok: false };
 
-    const { id, ...rest } = product;
+  const product = productParsed.data;
+  product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim();
 
-    try {
-      const prismaTx = await prisma.$transaction(async (tx) => {
-        let product: Product;
-        const tagsArray = rest.tags
-          .split(',')
-          .map((tag) => tag.trim().toLowerCase());
+  const { id, ...rest } = product;
 
-        if (id) {
-          product = await prisma.product.update({
-            where: { id },
-            data: {
-              ...rest,
-              sizes: {
-                set: rest.sizes as Size[],
-              },
-              tags: {
-                set: tagsArray,
-              },
+  try {
+    const prismaTx = await prisma.$transaction(async (tx) => {
+      let product: Product;
+      const tagsArray = rest.tags
+        .split(',')
+        .map((tag) => tag.trim().toLowerCase());
+
+      if (id) {
+        product = await prisma.product.update({
+          where: { id },
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
             },
-          });
-        } else {
-          product = await prisma.product.create({
-            data: {
-              ...rest,
-              sizes: {
-                set: rest.sizes as Size[],
-              },
-              tags: {
-                set: tagsArray,
-              },
+            tags: {
+              set: tagsArray,
             },
-          });
-        }
+          },
+        });
+      } else {
+        product = await prisma.product.create({
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
+            },
+            tags: {
+              set: tagsArray,
+            },
+          },
+        });
+      }
 
-        if (formData.getAll('images')) {
-          const images = await uploadImages(
-            formData.getAll('images') as File[]
-          );
-          if (images) {
-            await prisma.productImage.createMany({
-              data: images.map((image) => ({
-                url: image!,
-                productId: product.id,
-              })),
-            });
-          }
-
+      if (formData.getAll('images')) {
+        const images = await uploadImages(formData.getAll('images') as File[]);
+        if (!images) {
           const messageError = 'No se pudo cargar las imágenes, rolling back.';
-
           throw new Error(messageError);
         }
 
-        return { product };
-      });
+        await prisma.productImage.createMany({
+          data: images.map((image) => ({
+            url: image!,
+            productId: product.id,
+          })),
+        });
+      }
 
-      revalidatePath('/admin/products');
-      revalidatePath(`/admin/product/${product.slug}`);
-      revalidatePath(`/products/${product.slug}`);
+      return {
+        product,
+      };
+    });
 
-      return { ok: true, product: prismaTx.product };
-    } catch (error) {
-      const message = 'Revisar los logs, no se pudo actualizar/crear';
+    revalidatePath('/admin/products');
+    revalidatePath(`/admin/product/${product.slug}`);
+    revalidatePath(`/products/${product.slug}`);
 
-      return { ok: false, message };
-    }
+    return {
+      ok: true,
+      product: prismaTx.product,
+    };
+  } catch (error) {
+    const message = 'Revisar los logs, no se pudo actualizar/crear.';
+    return { ok: false, message };
   }
-
-  console.log(productParsed.error);
-  return { ok: false };
 };
 
 const uploadImages = async (images: File[]) => {
@@ -120,20 +118,17 @@ const uploadImages = async (images: File[]) => {
 
         return cloudinary.uploader
           .upload(`data:image/png;base64,${base64Image}`)
-          .then((response) => response.secure_url);
+          .then((r) => r.secure_url);
       } catch (error) {
         console.log(error);
-
         return null;
       }
     });
 
     const uploadedImages = await Promise.all(uploadPromises);
-
     return uploadedImages;
   } catch (error) {
     console.log(error);
-
     return null;
   }
 };
