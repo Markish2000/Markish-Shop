@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
-import Image from 'next/image';
-
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import { Swiper as SwiperObject } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { ProductImage } from '@/components';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -41,9 +41,9 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               className='rounded-lg object-fill'
-              src={`/products/${image}`}
+              src={image}
               alt={title}
               title={title}
               width={1024}
@@ -63,9 +63,9 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               className='rounded-lg object-fill'
-              src={`/products/${image}`}
+              src={image}
               alt={title}
               title={title}
               width={300}

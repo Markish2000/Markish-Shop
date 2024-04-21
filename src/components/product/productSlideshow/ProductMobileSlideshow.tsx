@@ -1,8 +1,9 @@
 'use client';
-import Image from 'next/image';
 
 import { Autoplay, FreeMode, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { ProductImage } from '@/components';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -30,9 +31,9 @@ export const ProductMobileSlideshow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               className='object-fill'
-              src={`/products/${image}`}
+              src={image}
               alt={title}
               title={title}
               width={600}

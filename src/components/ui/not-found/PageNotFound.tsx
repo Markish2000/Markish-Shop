@@ -1,5 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
+
+import { ProductImage } from '@/components';
 
 import { titleFont } from '@/config/fonts';
 
@@ -18,7 +19,7 @@ export const PageNotFound = () => {
       </div>
 
       <div className='px-5 mx-5'>
-        <Image
+        <ProductImage
           className='p-5 sm:p-0'
           src='/imgs/starman_750x750.png'
           alt='Starman'

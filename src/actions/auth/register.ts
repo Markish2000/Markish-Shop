@@ -23,17 +23,12 @@ export const registerUser = async (
       },
     });
 
-    return {
-      ok: true,
-      user,
-      message: 'Usuario creado.',
-    };
+    const message = 'Usuario creado.';
+    return { ok: true, user, message };
   } catch (error) {
     console.log(error);
 
-    return {
-      ok: false,
-      message: 'No se pudo crear el usuario.',
-    };
+    const message = 'No se pudo crear el usuario.';
+    return { ok: false, message };
   }
 };

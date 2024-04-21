@@ -1,5 +1,6 @@
 export * from './orders/OrderStatus';
 export * from './paypal/PaypalButton';
+export * from './product/product-image/ProductImage';
 export * from './product/productSlideshow/ProductMobileSlideshow';
 export * from './product/productSlideshow/ProductSlideshow';
 export * from './product/quantity-selector/QuantitySelector';

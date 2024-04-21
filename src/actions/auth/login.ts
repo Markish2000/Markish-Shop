@@ -26,6 +26,7 @@ export const login = async (email: string, password: string) => {
   } catch (error) {
     console.log(error);
 
-    return { ok: false, message: 'No se pudo iniciar sesión.' };
+    const message = 'No se pudo iniciar sesión.';
+    return { ok: false, message };
   }
 };

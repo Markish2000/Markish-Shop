@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
+import { ProductImage } from '@/components';
 
 import { useCartStore } from '@/store';
 
@@ -23,10 +23,10 @@ export const ProductsInCart = () => {
     <>
       {productsInCart.map((product) => (
         <div className='flex mb-5' key={`${product.slug}-${product.size}`}>
-          <Image
+          <ProductImage
             className='mr-5 rounded'
             style={{ width: '100px', height: '100px' }}
-            src={`/products/${product.image}`}
+            src={product.image}
             alt={product.title}
             title={product.title}
             width={100}

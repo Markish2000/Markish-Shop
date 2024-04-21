@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
-import Image from 'next/image';
 
-import { OrderStatus, PaypalButton, Title } from '@/components';
+import { OrderStatus, PaypalButton, ProductImage, Title } from '@/components';
 
 import { getOrderById } from '@/actions';
 
@@ -34,10 +33,10 @@ export default async function OrdersByIdPage({ params }: Readonly<Props>) {
                 className='flex mb-5'
                 key={`${item.product.slug}-${item.size}`}
               >
-                <Image
+                <ProductImage
                   className='mr-5 rounded'
                   style={{ width: '100px', height: '100px' }}
-                  src={`/products/${item.product.ProductImage[0].url}`}
+                  src={item.product.ProductImage[0].url}
                   alt={item.product.title}
                   title={item.product.title}
                   width={100}

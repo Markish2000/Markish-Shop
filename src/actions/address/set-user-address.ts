@@ -15,10 +15,8 @@ export const setUserAddress = async (address: Address, userId: string) => {
   } catch (error) {
     console.log(error);
 
-    return {
-      ok: false,
-      message: 'No se pudo grabar la dirección.',
-    };
+    const message = 'No se pudo grabar la dirección.';
+    return { ok: false, message };
   }
 };
 
@@ -57,6 +55,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
   } catch (error) {
     console.log(error);
 
-    throw new Error('No se pudo grabar la dirección.');
+    const messageError = 'No se pudo grabar la dirección.';
+    throw new Error(messageError);
   }
 };

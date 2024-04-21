@@ -1,5 +1,4 @@
 export interface Product {
-  // type: Type;
   description: string;
   gender: Category;
   id: string;
@@ -22,6 +21,12 @@ export interface CartProduct {
   title: string;
 }
 
-export type Category = 'men' | 'women' | 'kid' | 'unisex';
+export interface ProductImage {
+  id: number;
+  url: string;
+  productId: string;
+}
+
+type Category = 'men' | 'women' | 'kid' | 'unisex';
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 export type Type = 'shirts' | 'pants' | 'hoodies' | 'hats';

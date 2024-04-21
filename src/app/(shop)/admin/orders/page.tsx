@@ -3,9 +3,9 @@ export const revalidate = 0;
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
-import { IoCardOutline } from 'react-icons/io5';
+import { Pagination, Title } from '@/components';
 
-import { Title } from '@/components';
+import { IoCardOutline } from 'react-icons/io5';
 
 import { getPaginatedOrders } from '@/actions';
 
@@ -85,6 +85,8 @@ export default async function OrdersPage() {
             ))}
           </tbody>
         </table>
+
+        <Pagination totalPages={3} />
       </div>
     </>
   );
